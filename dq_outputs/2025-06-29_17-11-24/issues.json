@@ -1,0 +1,57 @@
+[
+  [
+    1,
+    "ClaimAmount",
+    "not_null"
+  ],
+  [
+    0,
+    "AdjusterID",
+    "positive_integer"
+  ],
+  [
+    1,
+    "AdjusterID",
+    "positive_integer"
+  ],
+  [
+    2,
+    "AdjusterID",
+    "positive_integer"
+  ],
+  [
+    3,
+    "AdjusterID",
+    "positive_integer"
+  ],
+  [
+    4,
+    "AdjusterID",
+    "positive_integer"
+  ],
+  [
+    0,
+    "ClaimDate",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    1,
+    "ClaimDate",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "ClaimDate",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    3,
+    "ClaimDate",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    4,
+    "ClaimDate",
+    "date_format: YYYY-MM-DD"
+  ]
+]

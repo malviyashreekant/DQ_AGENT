@@ -1,0 +1,158 @@
+[
+  {
+    "stage": "rule_generation",
+    "output": "yml\n---\nvalidation_rules:\n  ClaimID:\n    required: true\n    pattern:\n      - '^C[0-9]{3}$' # Check if the claim ID starts with 'C', followed by three digits\n\n  ClaimAmount:\n    required: true\n    type: number\n    minimum: 0\n    maximum: null\n    # Check for negative amounts, as they don't make sense in this context\n    negative: false\n    format: currency\n\n  ClaimDate:\n    required: true\n    pattern:\n      - '^(\\d{4})-(\\d{2})-(\\d{2})' # Validate date format (YYYY-MM-DD)\n      - '^[0-9]{1,4}:[0-9]{2}:[0-9]{2}$' # Validate time format (HH:MM:SS)\n\n  AdjusterID:\n    required: true\n    pattern:\n      - '^A[0-9]{3}$' # Check if the adjuster ID starts with 'A', followed by three digits\n\n  ZipCode:\n    required: true\n    length: [5,10] # Zip codes are typically between 5 and 10 characters long\n    format: zip_code"
+  },
+  {
+    "stage": "rule_generation",
+    "output": "data_quality_rules:\n  claims:\n    - type: must_be_numeric\n      field: ClaimAmount\n    - type: not_null\n      field: AdjusterID\n    - type: valid_zip_code\n      field: ZipCode\n    - type: valid_date_format\n      field: ClaimDate\n      format: yyyy-MM-dd\n    - type: must_not_be_negative\n      field: ClaimAmount\n    - type: must_match_claim_amount_with_insured_amount (if applicable)\n      field: InsuredAmount"
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n  - type: check ClaimAmount is numeric\n    message: Claim amount must be a number\n  - type: check ZipCode is numeric\n    message: Zip code must be an integer\n  - type: check ClaimDate is in YYYY-MM-DD format\n    message: Claim date must be in YYYY-MM-DD format\n  - type: check AdjusterID is alphanumeric\n    message: Adjuster ID must contain only letters and numbers"
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n  - rule: Check for null or missing values in ClaimAmount\n    condition: !is_null(claims[ClaimAmount])\n    error_message: Claim amount cannot be null or missing.\n\n  - rule: Validate zip code format\n    condition: regex('^\\\\d{5}(?:-\\\\d{4})?$', claims[ZipCode])\n    error_message: Invalid zip code. Please use the format XXXXX (or XXXXX-XXXX).\n\n  - rule: Check for invalid claim dates\n    condition: ~^[0-9]{4}-[0-9]{2}-[0-9]{2}$\n    error_message: Invalid claim date. Please use YYYY-MM-DD format.\n\n  - rule: Ensure unique ClaimID values\n    condition: length(claims[ClaimID]) == length(unique(claims[ClaimID]))\n    error_message: Duplicate claim ID found.\n\n  - rule: Check for non-numeric ClaimAmount values\n    condition: type(claims[ClaimAmount]) != 'number'\n    error_message: Claim amount must be a number."
+  },
+  {
+    "stage": "rule_generation",
+    "output": null
+  },
+  {
+    "stage": "rule_generation",
+    "output": null
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\ncheck: not_null\ncheck: length(5)\ncheck: not_empty\ncheck: date_format('YYYY-MM-DD')\ncheck: positive_integer"
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\ncheck: not_null\ncheck: \"date_format: YYYY-MM-DD\"\ncheck: positive_integer\ncheck: length(5)\ncheck: positive\ncheck: greater_than_zero"
+  },
+  {
+    "stage": "rule_generation",
+    "output": null
+  },
+  {
+    "stage": "rule_generation",
+    "output": null
+  },
+  {
+    "stage": "rule_generation",
+    "output": null
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: not_empty\n- column: JoinDate\n  check: 'date_format: YYYY-MM-DD'\n- column: AdjusterID\n  check: not_null\n- column: ClaimDate\n  check: not_null\n- column: ClaimAmount\n  check: positive_integer\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Data Quality Issue Summary**\n\nThe first row of the dataset has a missing value in the \"ClaimAmount\" column. The \"not_null\" rule is a data quality rule that ensures no null or missing values are present in a specific column.\n\n**Recommendations for Improvement**\n\n1. **Identify the cause**: Determine why there is a missing value in the \"ClaimAmount\" column. Is it due to an incomplete record, data entry error, or formatting issue?\n2. **Data validation**: Apply data validation rules to prevent similar errors in the future.\n3. **Handle missing values**: Decide on a suitable strategy for handling missing values:\n\t* Impute: Replace with a plausible value (e.g., average claim amount).\n\t* Delete: Remove the entire row or record, potentially affecting analysis or reporting.\n\t* Notify: Flag the issue and notify the data owner or responsible party for investigation.\n4. **Data cleaning**: Perform data cleaning to remove any additional errors or inconsistencies in the \"ClaimAmount\" column.\n\n**Additional Considerations**\n\nTo prevent similar issues in the future:\n\n1. **Implement data validation rules**: Use tools like Data Validation (in Excel) or Data Profiler (in SQL) to enforce data quality checks.\n2. **Use data profiling techniques**: Regularly analyze and identify patterns, trends, and anomalies in your data to catch potential errors early on.\n\nBy addressing this issue promptly and implementing data quality measures, you can ensure the accuracy and reliability of your dataset."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: length(5)\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: AdjusterID\n  check: positive_integer\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Issue Summary**\n\nThe data quality issue is that the value in row 1, column 'ClaimAmount' is missing or null, which fails the 'not_null' rule.\n\n**Recommendations**\n\nTo improve this data quality issue, I recommend the following:\n\n1. **Data validation**: Verify if the claim amount should be nullable for any specific reason (e.g., new claims, historical claims with unknown amounts). If not, update the data entry process to ensure claim amounts are always populated.\n2. **Data cleansing**: Remove or flag row 1 for review, as it's likely a data entry error. Consider using automated data cleaning tools or manual intervention to identify and correct similar issues.\n3. **Data normalization**: Normalize the 'ClaimAmount' column by setting a default value (e.g., $0) if no amount is provided. This ensures consistency in the dataset and helps detect potential errors.\n4. **Business process review**: Review business processes related to claim submissions to ensure that all required fields are populated for new claims.\n\n**Action Plan**\n\n* Verify data validation rules\n* Cleanse or remove flagged data\n* Normalize 'ClaimAmount' column (optional)\n* Review business processes for completeness and accuracy\n\nBy implementing these recommendations, you can improve the overall quality of your data, reduce errors, and enhance data-driven decision-making."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: AdjusterID\n  check: not_empty\n- column: ZipCode\n  check: positive_integer\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: claim_amount\n  check: length(5)\n- column: adjuster_id\n  check: not_null\n"
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: not_empty\n- column: AdjusterID\n  check: not_null\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: ClaimID\n  check: not_null\n"
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: length(5)\n- column: AdjusterID\n  check: positive_integer\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ],
+      [
+        0,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        1,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        2,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        3,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        4,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        0,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Summary of Data Quality Issues**\n\nThe data contains various errors that need to be addressed:\n\n1. Non-null values in the 'ClaimAmount' column, which is expected to be null.\n2. Invalid 'AdjusterID' values, where all except Row 0 are not positive integers.\n3. Inconsistent 'ClaimDate' formats, where none of the dates match the expected YYYY-MM-DD format.\n\n**Recommendations for Improvement**\n\n1. **Address non-null value in 'ClaimAmount' column**: Since the 'ClaimAmount' column is expected to be null, ensure that all rows have a valid null value or provide alternative processing instructions.\n2. **Standardize 'AdjusterID' values**: Enforce positive integer values for the 'AdjusterID' column by:\n\t* Cleaning existing data: Ensure all values are positive integers using data manipulation techniques (e.g., `INT()` function or data validation rules).\n\t* Establishing constraints: Update database schema to enforce a positive integer data type for the 'AdjusterID' column.\n3. **Format 'ClaimDate' values consistently**: Use data manipulation techniques to standardize date formats, such as:\n\t* Converting existing dates to the expected YYYY-MM-DD format using date conversion functions (e.g., `DATE_FORMAT()`).\n\t* Creating a new column with the corrected date format and removing the original dates.\n\n**Example SQL Code for Standardization**\n```sql\n-- Clean 'ClaimAmount' column by setting all values to null\nUPDATE table_name SET ClaimAmount = NULL;\n\n-- Standardize 'AdjusterID' values by converting them to positive integers\nUPDATE table_name SET AdjusterID = (SELECT INT(AdjusterID) FROM table_name);\n\n-- Format 'ClaimDate' values to the expected YYYY-MM-DD format\nALTER TABLE table_name ADD COLUMN formatted_claim_date DATE;\nUPDATE table_name SET formatted_claim_date = DATE_FORMAT(ClaimDate, '%Y-%m-%d');\n```\nBy addressing these data quality issues and standardizing the formats, you can ensure that your data is accurate, consistent, and reliable for analysis and further processing."
+  }
+]
