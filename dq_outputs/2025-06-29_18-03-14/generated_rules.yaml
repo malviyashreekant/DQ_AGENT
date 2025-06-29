@@ -1,0 +1,11 @@
+rules:
+- column: months_as_customer
+  check: not_null
+- column: age
+  check: positive_integer
+- column: policy_number
+  check: not_null
+- column: incident_date
+  check: 'date_format: YYYY-MM-DD'
+- column: incident_type
+  check: not_null

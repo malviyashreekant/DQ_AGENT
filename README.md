@@ -2,6 +2,9 @@
 
 DQ-Agent is a Python automation tool for profiling datasets, generating data quality rules using Llama 3.2, validating data against rules, and summarizing issues with AI-driven recommendations.
 
+# Dataset Information
+Sample of 20 records used from Kaggle Dataset ( https://www.kaggle.com/datasets/buntyshah/auto-insurance-claims-data ) that contains real-world auto insurance claim records intended for analysis or fraud detection
+
 ## Features
 - **Data Profiling:** Loads and profiles CSV datasets.
 - **Rule Generation:** Uses Llama 3 to generate YAML-based data quality rules from the dataset.

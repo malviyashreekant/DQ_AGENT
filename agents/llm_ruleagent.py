@@ -21,12 +21,23 @@ rules:
   - column: join_date
     check: "date_format: YYYY-MM-DD"
 
+
+also for date format the format should be YYYY-MM-DD do not use any other format
+
+
 Allowed check types:
 - not_null
 - not_empty
 - length(n)
 - positive_integer
 - "date_format: YYYY-MM-DD"
+
+**Rule Definitions for Reference:**
+- not_null: value should not be null which is equivalent to not_empty
+- length(n): value should be exactly n characters long
+- date_format: value should match specified format
+- positive_integer: value must be an integer > 0
+
 
  DO NOT include:
 - Markdown formatting (like ```yaml or *)

@@ -1,0 +1,43 @@
+rules:
+- column: age
+  check: not_null
+- column: name
+  check: not_empty
+- column: policy_number
+  check: not_null
+- column: capital-gains
+  check: positive_integer
+- column: months_as_customer
+  check: positive_integer
+- column: number_of_vehicles_involved
+  check: positive_integer
+- column: bodily_injuries
+  check: positive_integer
+- column: total_claim_amount
+  check: not_null
+- column: injury_claim
+  check: 'date_format: YYYY-MM-DD'
+- column: property_claim
+  check: 'date_format: YYYY-MM-DD'
+- column: vehicle_claim
+  check: 'date_format: YYYY-MM-DD'
+- column: incident_date
+  check: not_null
+- column: policy_bind_date
+  check: 'date_format: YYYY-MM-DD'
+- column: policy_state
+  check: not_empty
+- column: insured_zip
+  check: not_empty
+- column: insured_sex
+  check: not_empty
+- column: insured_education_level
+  check: not_empty
+- column: insured_occupation
+  check: not_empty
+- column: insured_hobbies
+  check: not_empty
+- column: insured_relationship
+  check: not_empty
+- column: incident_severity
+  check: positive_integer

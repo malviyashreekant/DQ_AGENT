@@ -1,0 +1,603 @@
+[
+  "Column 'name' not found in data.",
+  [
+    2,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    4,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    6,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    7,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    8,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    10,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    11,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    12,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    13,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    16,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    17,
+    "capital-gains",
+    "positive_integer"
+  ],
+  [
+    3,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    5,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    7,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    9,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    10,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    14,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    17,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    18,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    19,
+    "bodily_injuries",
+    "positive_integer"
+  ],
+  [
+    0,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    1,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    3,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    4,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    5,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    6,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    7,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    8,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    9,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    10,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    11,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    12,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    13,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    14,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    15,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    16,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    17,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    18,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    19,
+    "injury_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    0,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    1,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    3,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    4,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    5,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    6,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    7,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    8,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    9,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    10,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    11,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    12,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    13,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    14,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    15,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    16,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    17,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    18,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    19,
+    "property_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    0,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    1,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    3,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    4,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    5,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    6,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    7,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    8,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    9,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    10,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    11,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    12,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    13,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    14,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    15,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    16,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    17,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    18,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    19,
+    "vehicle_claim",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    0,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    1,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    3,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    4,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    5,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    6,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    7,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    8,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    9,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    10,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    11,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    12,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    13,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    14,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    15,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    16,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    17,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    18,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    19,
+    "policy_bind_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    0,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    1,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    2,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    3,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    4,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    5,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    6,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    7,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    8,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    9,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    10,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    11,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    12,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    13,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    14,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    15,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    16,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    17,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    18,
+    "incident_severity",
+    "positive_integer"
+  ],
+  [
+    19,
+    "incident_severity",
+    "positive_integer"
+  ]
+]

@@ -154,5 +154,6015 @@
   {
     "stage": "summary",
     "output": "**Summary of Data Quality Issues**\n\nThe data contains various errors that need to be addressed:\n\n1. Non-null values in the 'ClaimAmount' column, which is expected to be null.\n2. Invalid 'AdjusterID' values, where all except Row 0 are not positive integers.\n3. Inconsistent 'ClaimDate' formats, where none of the dates match the expected YYYY-MM-DD format.\n\n**Recommendations for Improvement**\n\n1. **Address non-null value in 'ClaimAmount' column**: Since the 'ClaimAmount' column is expected to be null, ensure that all rows have a valid null value or provide alternative processing instructions.\n2. **Standardize 'AdjusterID' values**: Enforce positive integer values for the 'AdjusterID' column by:\n\t* Cleaning existing data: Ensure all values are positive integers using data manipulation techniques (e.g., `INT()` function or data validation rules).\n\t* Establishing constraints: Update database schema to enforce a positive integer data type for the 'AdjusterID' column.\n3. **Format 'ClaimDate' values consistently**: Use data manipulation techniques to standardize date formats, such as:\n\t* Converting existing dates to the expected YYYY-MM-DD format using date conversion functions (e.g., `DATE_FORMAT()`).\n\t* Creating a new column with the corrected date format and removing the original dates.\n\n**Example SQL Code for Standardization**\n```sql\n-- Clean 'ClaimAmount' column by setting all values to null\nUPDATE table_name SET ClaimAmount = NULL;\n\n-- Standardize 'AdjusterID' values by converting them to positive integers\nUPDATE table_name SET AdjusterID = (SELECT INT(AdjusterID) FROM table_name);\n\n-- Format 'ClaimDate' values to the expected YYYY-MM-DD format\nALTER TABLE table_name ADD COLUMN formatted_claim_date DATE;\nUPDATE table_name SET formatted_claim_date = DATE_FORMAT(ClaimDate, '%Y-%m-%d');\n```\nBy addressing these data quality issues and standardizing the formats, you can ensure that your data is accurate, consistent, and reliable for analysis and further processing."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: length(5)\n- column: AdjusterID\n  check: positive_integer\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ],
+      [
+        0,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        1,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        2,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        3,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        4,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        0,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Summary of Data Quality Issues**\n\nThe provided data contains several issues that need to be addressed:\n\n* Multiple rows have invalid or missing values in the `AdjusterID` column, which must be positive integers.\n* Several rows have incorrect date formats in the `ClaimDate` column, with non-standard dates not conforming to the required YYYY-MM-DD format.\n\n**Recommendations for Improvements**\n\nTo address these issues, I recommend the following improvements:\n\n1. **Update AdjusterID values**: Manually review and update the values in the `AdjusterID` column to ensure they are positive integers. You can use a script or tool like SQL Server's `CHECK CONSTRAINTS` feature to enforce data type constraints on this column.\n2. **Format ClaimDate values**: Review each row with an invalid date format in the `ClaimDate` column and correct it to conform to the YYYY-MM-DD standard format using a data transformation step (e.g., using Power Query or SQL Server's `CONVERT` function).\n3. **Add missing AdjusterID values**: If there are any missing values in the `AdjusterID` column, determine the correct values based on business logic or external data sources and update them accordingly.\n4. **Create a CHECK CONSTRAINT**: Create an additional CHECK CONSTRAINT to enforce the positive integer rule for the `AdjusterID` column to prevent similar issues in the future.\n\n**Example SQL Code**\n```sql\n-- Update AdjusterID values\nUPDATE TableName\nSET AdjusterID = @validID\nWHERE AdjusterID IS NULL OR AdjusterID < 0;\n\n-- Format ClaimDate values\nALTER TABLE TableName\nADD CONSTRAINT CL_C claim_date CHECK (DATE_FORMAT(ClaimDate, 'YYYY-MM-DD') = DATE_FORMAT(@validDate, 'YYYY-MM-DD'));\n\n-- Add missing AdjusterID values\nUPDATE TableName\nSET AdjusterID = @defaultAdjusterID\nWHERE AdjusterID IS NULL;\n```\n**Additional Recommendations**\n\n* Consider implementing data validation and sanitization rules in the source data before importing it into your database.\n* Regularly review and update data quality checks to ensure they remain effective and relevant over time."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: not_empty\n- column: AdjusterID\n  check: positive_integer\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: ClaimID\n  check: length(5)\n- column: ClaimAmount\n  check: length(4)\n- column: ZipCode\n  check: length(5)\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ],
+      [
+        0,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        1,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        2,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        3,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        4,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        0,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "ClaimID",
+        "length(5)"
+      ],
+      [
+        1,
+        "ClaimID",
+        "length(5)"
+      ],
+      [
+        2,
+        "ClaimID",
+        "length(5)"
+      ],
+      [
+        3,
+        "ClaimID",
+        "length(5)"
+      ],
+      [
+        4,
+        "ClaimID",
+        "length(5)"
+      ],
+      [
+        0,
+        "ClaimAmount",
+        "length(4)"
+      ],
+      [
+        1,
+        "ClaimAmount",
+        "length(4)"
+      ],
+      [
+        2,
+        "ClaimAmount",
+        "length(4)"
+      ],
+      [
+        3,
+        "ClaimAmount",
+        "length(4)"
+      ],
+      [
+        4,
+        "ClaimAmount",
+        "length(4)"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Summary of Data Quality Issues**\n\nThe data quality issues are grouped into three categories:\n\n* **Invalid or missing values**: Rows with missing or invalid values in specific columns.\n* **Data format inconsistencies**: Inconsistent date formats and integer constraints.\n* **Length mismatches**: Values that do not match expected length constraints.\n\n**Root Causes and Recommendations for Improvement**\n\n### Invalid or Missing Values\n\n\u2022 The root cause of these issues appears to be incorrect data entry or data import errors. \n  To resolve: Review the data source, validate user input, and implement data validation checks during imports.\n  Additional recommendations:\n  \u2022 Check if there are any missing values that can be inferred from other columns.\n  \u2022 Verify that all required fields have been populated.\n\n### Data Format Inconsistencies\n\n\u2022 The root cause of these issues is likely incorrect or inconsistent date formatting. \n  To resolve: Update the data source to use a standard date format (e.g., YYYY-MM-DD) and ensure date parsing libraries are used correctly.\n  Additional recommendations:\n  \u2022 Test date parsing with sample data to identify potential issues.\n  \u2022 Consider using a third-party library for date handling to simplify data processing.\n\n### Length Mismatches\n\n\u2022 The root cause of these issues is likely incorrect or inconsistent length constraints. \n  To resolve: Review the data source and update constraints as needed to ensure accurate length checks.\n  Additional recommendations:\n  \u2022 Check if there are any values that can be inferred from other columns to infer length.\n  \u2022 Consider implementing data validation checks during imports to catch length mismatches early.\n\n**Additional Recommendations**\n\n* Regularly review and update data quality rules and constraints.\n* Perform data quality checks on a regular basis, such as daily or weekly reports.\n* Consider implementing automated data validation scripts to identify and correct issues before they become major problems."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimID\n  check: not_null\n- column: ClaimAmount\n  check: not_null, positive_integer\n- column: AdjusterID\n  check: not_null\n- column: ZipCode\n  check: length(5)\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: JoinDate\n  check: not_null\n- column: name\n  check: not_empty\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        0,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      "Column 'JoinDate' not found in data.",
+      "Column 'name' not found in data."
+    ]
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: positive_integer\n- column: AdjusterID\n  check: positive_integer\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: ClaimID\n  check: length(3)\n- column: ClaimAmount\n  check: not_empty\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ],
+      [
+        0,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        1,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        2,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        3,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        4,
+        "AdjusterID",
+        "positive_integer"
+      ],
+      [
+        0,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "ClaimID",
+        "length(3)"
+      ],
+      [
+        1,
+        "ClaimID",
+        "length(3)"
+      ],
+      [
+        2,
+        "ClaimID",
+        "length(3)"
+      ],
+      [
+        3,
+        "ClaimID",
+        "length(3)"
+      ],
+      [
+        4,
+        "ClaimID",
+        "length(3)"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Summary of Data Quality Issues:**\n\nThe following data quality issues were identified:\n\n* Three rows have invalid `AdjusterID` values that are not positive integers.\n* Five rows have invalid `ClaimDate` values that do not match the specified date format (YYYY-MM-DD).\n* Eight rows have invalid `ClaimID` values that do not meet the length requirement of 3 characters.\n\n**Recommendations for Improvement:**\n\nTo address these data quality issues, consider the following steps:\n\n1. **AdjusterID Validation:** Review and update the rules for `AdjusterID` to ensure it is correctly validated as a positive integer. Consider adding additional validation checks, such as checking if the value exists in a lookup table or database.\n2. **ClaimDate Format Validation:** Update the date format rule to allow for a small window of tolerance (e.g., \u00b11 day) to accommodate minor formatting errors. This will help prevent false positives while still maintaining data integrity.\n3. **ClaimID Length Validation:** Consider adding additional validation checks, such as checking if the value matches a specific pattern or exists in a lookup table or database.\n\n**Action Plan:**\n\n* Review and update the data quality rules to reflect these changes.\n* Implement automated checks for `AdjusterID` and `ClaimDate` values using programming languages like Python or R.\n* Use databases or data storage solutions to validate and verify the existence of `AdjusterID` values.\n* Consider implementing additional validation checks, such as regular expression patterns or data normalization techniques, to improve overall data quality.\n\n**Example Python Code for AdjusterID Validation:**\n```python\nimport re\n\ndef validate_adjuster_id(value):\n    if not isinstance(value, int) or value <= 0:\n        raise ValueError(\"Invalid AdjusterID value\")\n    adjuster_ids = [1, 2, 3, 4, 5]  # lookup table or database values\n    if value not in adjuster_ids:\n        raise ValueError(\"AdjusterID value does not exist in the system\")\n\n# Test the function\ntry:\n    validate_adjuster_id(123)\nexcept ValueError as e:\n    print(e)  # Invalid AdjusterID value\n\nvalidate_adjuster_id(1)\n```\nThis code snippet demonstrates a basic validation function for `AdjusterID` values. It checks if the value is an integer greater than zero and exists in a lookup table or database."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: ClaimAmount\n  check: not_null\n- column: ZipCode\n  check: not_empty\n- column: AdjusterID\n  check: not_null\n- column: ClaimDate\n  check: 'date_format: YYYY-MM-DD'\n- column: ClaimID\n  check: not_null\n- column: ClaimAmount\n  check: positive_integer\n- column: ZipCode\n  check: length(5)\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        1,
+        "ClaimAmount",
+        "not_null"
+      ],
+      [
+        0,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "ClaimDate",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "ClaimAmount",
+        "positive_integer"
+      ],
+      [
+        1,
+        "ClaimAmount",
+        "positive_integer"
+      ],
+      [
+        2,
+        "ClaimAmount",
+        "positive_integer"
+      ],
+      [
+        3,
+        "ClaimAmount",
+        "positive_integer"
+      ],
+      [
+        4,
+        "ClaimAmount",
+        "positive_integer"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Summary of Validation Errors**\n\nThe dataset contains the following validation errors:\n\n* Null values in the \"ClaimAmount\" column: Rows 1 and 0 are missing valid claim amounts.\n* Invalid date formats in the \"ClaimDate\" column: All rows (5) have incorrect dates in the format \"YYYY-MM-DD\".\n* Non-integer values in the \"ClaimAmount\" column: Rows 2 through 4 have non-integer claim amounts.\n\n**Recommendations for Improvements**\n\n1. **Address null values in \"ClaimAmount\"**: Investigate why some claims are missing valid amounts and resolve this issue to ensure all claim amounts are present.\n\t* Possible solutions:\n\t\t+ Verify business requirements for claim amount completeness\n\t\t+ Update data sources or extractors to include claim amounts\n\t\t+ Identify and address any systemic issues causing incomplete claim amounts\n2. **Correct date formats in \"ClaimDate\"**: Ensure that the date format used is consistent across all rows.\n\t* Possible solutions:\n\t\t+ Review business requirements for date formats\n\t\t+ Update data sources or extractors to use the correct date format\n\t\t+ Perform data cleansing to reformat dates in compliance with the standard format\n3. **Validate integer values in \"ClaimAmount\"**: Ensure that all claim amounts are integers.\n\t* Possible solutions:\n\t\t+ Verify business requirements for claim amount formatting\n\t\t+ Update data sources or extractors to ensure claim amounts are integers\n\t\t+ Perform data cleansing to convert non-integer values to integers\n\n**Action Plan**\n\n1. Identify the root cause of the null values in \"ClaimAmount\" and implement a solution.\n2. Review and correct date formats in \"ClaimDate\".\n3. Update data sources or extractors to ensure claim amounts are integers.\n\n**Monitoring and Follow-up**\n\nRegularly review the dataset for any new validation errors or emerging issues related to these corrections. Ensure that the updated data is accurate, complete, and compliant with business requirements."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: months_as_customer\n  check: not_null\n- column: age\n  check: positive_integer\n- column: policy_number\n  check: not_null\n- column: incident_date\n  check: 'date_format: YYYY-MM-DD'\n- column: incident_type\n  check: not_null\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      [
+        0,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        5,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        6,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        7,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        8,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        9,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        10,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        11,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        12,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        13,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        14,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        15,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        16,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        17,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        18,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        19,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        20,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        21,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        22,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        23,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        24,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        25,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        26,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        27,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        28,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        29,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        30,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        31,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        32,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        33,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        34,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        35,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        36,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        37,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        38,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        39,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        40,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        41,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        42,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        43,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        44,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        45,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        46,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        47,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        48,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        49,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        50,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        51,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        52,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        53,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        54,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        55,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        56,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        57,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        58,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        59,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        60,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        61,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        62,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        63,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        64,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        65,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        66,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        67,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        68,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        69,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        70,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        71,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        72,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        73,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        74,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        75,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        76,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        77,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        78,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        79,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        80,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        81,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        82,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        83,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        84,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        85,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        86,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        87,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        88,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        89,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        90,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        91,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        92,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        93,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        94,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        95,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        96,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        97,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        98,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        99,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        100,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        101,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        102,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        103,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        104,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        105,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        106,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        107,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        108,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        109,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        110,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        111,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        112,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        113,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        114,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        115,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        116,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        117,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        118,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        119,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        120,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        121,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        122,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        123,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        124,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        125,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        126,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        127,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        128,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        129,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        130,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        131,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        132,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        133,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        134,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        135,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        136,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        137,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        138,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        139,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        140,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        141,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        142,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        143,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        144,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        145,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        146,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        147,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        148,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        149,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        150,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        151,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        152,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        153,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        154,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        155,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        156,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        157,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        158,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        159,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        160,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        161,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        162,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        163,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        164,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        165,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        166,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        167,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        168,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        169,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        170,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        171,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        172,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        173,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        174,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        175,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        176,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        177,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        178,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        179,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        180,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        181,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        182,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        183,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        184,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        185,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        186,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        187,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        188,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        189,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        190,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        191,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        192,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        193,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        194,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        195,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        196,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        197,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        198,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        199,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        200,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        201,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        202,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        203,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        204,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        205,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        206,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        207,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        208,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        209,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        210,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        211,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        212,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        213,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        214,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        215,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        216,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        217,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        218,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        219,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        220,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        221,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        222,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        223,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        224,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        225,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        226,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        227,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        228,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        229,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        230,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        231,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        232,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        233,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        234,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        235,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        236,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        237,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        238,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        239,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        240,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        241,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        242,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        243,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        244,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        245,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        246,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        247,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        248,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        249,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        250,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        251,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        252,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        253,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        254,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        255,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        256,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        257,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        258,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        259,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        260,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        261,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        262,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        263,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        264,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        265,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        266,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        267,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        268,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        269,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        270,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        271,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        272,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        273,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        274,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        275,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        276,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        277,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        278,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        279,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        280,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        281,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        282,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        283,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        284,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        285,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        286,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        287,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        288,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        289,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        290,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        291,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        292,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        293,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        294,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        295,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        296,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        297,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        298,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        299,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        300,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        301,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        302,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        303,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        304,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        305,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        306,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        307,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        308,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        309,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        310,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        311,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        312,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        313,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        314,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        315,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        316,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        317,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        318,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        319,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        320,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        321,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        322,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        323,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        324,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        325,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        326,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        327,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        328,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        329,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        330,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        331,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        332,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        333,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        334,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        335,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        336,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        337,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        338,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        339,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        340,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        341,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        342,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        343,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        344,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        345,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        346,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        347,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        348,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        349,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        350,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        351,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        352,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        353,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        354,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        355,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        356,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        357,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        358,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        359,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        360,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        361,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        362,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        363,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        364,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        365,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        366,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        367,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        368,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        369,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        370,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        371,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        372,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        373,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        374,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        375,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        376,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        377,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        378,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        379,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        380,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        381,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        382,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        383,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        384,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        385,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        386,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        387,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        388,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        389,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        390,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        391,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        392,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        393,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        394,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        395,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        396,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        397,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        398,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        399,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        400,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        401,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        402,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        403,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        404,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        405,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        406,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        407,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        408,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        409,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        410,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        411,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        412,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        413,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        414,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        415,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        416,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        417,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        418,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        419,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        420,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        421,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        422,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        423,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        424,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        425,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        426,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        427,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        428,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        429,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        430,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        431,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        432,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        433,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        434,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        435,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        436,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        437,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        438,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        439,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        440,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        441,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        442,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        443,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        444,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        445,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        446,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        447,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        448,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        449,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        450,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        451,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        452,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        453,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        454,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        455,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        456,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        457,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        458,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        459,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        460,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        461,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        462,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        463,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        464,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        465,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        466,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        467,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        468,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        469,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        470,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        471,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        472,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        473,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        474,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        475,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        476,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        477,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        478,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        479,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        480,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        481,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        482,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        483,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        484,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        485,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        486,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        487,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        488,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        489,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        490,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        491,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        492,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        493,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        494,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        495,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        496,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        497,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        498,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        499,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        500,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        501,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        502,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        503,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        504,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        505,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        506,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        507,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        508,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        509,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        510,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        511,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        512,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        513,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        514,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        515,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        516,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        517,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        518,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        519,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        520,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        521,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        522,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        523,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        524,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        525,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        526,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        527,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        528,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        529,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        530,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        531,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        532,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        533,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        534,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        535,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        536,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        537,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        538,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        539,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        540,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        541,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        542,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        543,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        544,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        545,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        546,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        547,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        548,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        549,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        550,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        551,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        552,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        553,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        554,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        555,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        556,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        557,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        558,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        559,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        560,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        561,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        562,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        563,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        564,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        565,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        566,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        567,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        568,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        569,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        570,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        571,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        572,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        573,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        574,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        575,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        576,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        577,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        578,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        579,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        580,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        581,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        582,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        583,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        584,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        585,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        586,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        587,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        588,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        589,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        590,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        591,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        592,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        593,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        594,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        595,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        596,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        597,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        598,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        599,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        600,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        601,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        602,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        603,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        604,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        605,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        606,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        607,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        608,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        609,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        610,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        611,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        612,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        613,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        614,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        615,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        616,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        617,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        618,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        619,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        620,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        621,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        622,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        623,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        624,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        625,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        626,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        627,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        628,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        629,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        630,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        631,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        632,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        633,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        634,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        635,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        636,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        637,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        638,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        639,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        640,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        641,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        642,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        643,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        644,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        645,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        646,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        647,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        648,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        649,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        650,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        651,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        652,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        653,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        654,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        655,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        656,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        657,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        658,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        659,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        660,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        661,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        662,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        663,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        664,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        665,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        666,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        667,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        668,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        669,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        670,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        671,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        672,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        673,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        674,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        675,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        676,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        677,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        678,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        679,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        680,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        681,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        682,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        683,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        684,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        685,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        686,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        687,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        688,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        689,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        690,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        691,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        692,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        693,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        694,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        695,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        696,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        697,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        698,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        699,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        700,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        701,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        702,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        703,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        704,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        705,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        706,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        707,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        708,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        709,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        710,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        711,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        712,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        713,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        714,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        715,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        716,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        717,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        718,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        719,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        720,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        721,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        722,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        723,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        724,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        725,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        726,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        727,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        728,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        729,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        730,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        731,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        732,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        733,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        734,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        735,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        736,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        737,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        738,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        739,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        740,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        741,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        742,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        743,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        744,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        745,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        746,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        747,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        748,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        749,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        750,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        751,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        752,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        753,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        754,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        755,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        756,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        757,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        758,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        759,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        760,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        761,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        762,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        763,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        764,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        765,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        766,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        767,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        768,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        769,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        770,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        771,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        772,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        773,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        774,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        775,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        776,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        777,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        778,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        779,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        780,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        781,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        782,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        783,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        784,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        785,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        786,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        787,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        788,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        789,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        790,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        791,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        792,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        793,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        794,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        795,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        796,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        797,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        798,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        799,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        800,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        801,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        802,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        803,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        804,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        805,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        806,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        807,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        808,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        809,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        810,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        811,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        812,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        813,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        814,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        815,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        816,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        817,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        818,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        819,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        820,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        821,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        822,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        823,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        824,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        825,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        826,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        827,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        828,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        829,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        830,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        831,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        832,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        833,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        834,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        835,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        836,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        837,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        838,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        839,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        840,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        841,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        842,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        843,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        844,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        845,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        846,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        847,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        848,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        849,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        850,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        851,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        852,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        853,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        854,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        855,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        856,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        857,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        858,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        859,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        860,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        861,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        862,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        863,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        864,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        865,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        866,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        867,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        868,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        869,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        870,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        871,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        872,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        873,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        874,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        875,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        876,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        877,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        878,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        879,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        880,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        881,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        882,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        883,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        884,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        885,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        886,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        887,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        888,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        889,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        890,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        891,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        892,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        893,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        894,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        895,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        896,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        897,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        898,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        899,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        900,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        901,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        902,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        903,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        904,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        905,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        906,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        907,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        908,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        909,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        910,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        911,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        912,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        913,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        914,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        915,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        916,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        917,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        918,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        919,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        920,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        921,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        922,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        923,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        924,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        925,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        926,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        927,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        928,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        929,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        930,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        931,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        932,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        933,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        934,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        935,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        936,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        937,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        938,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        939,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        940,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        941,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        942,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        943,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        944,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        945,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        946,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        947,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        948,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        949,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        950,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        951,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        952,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        953,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        954,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        955,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        956,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        957,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        958,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        959,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        960,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        961,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        962,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        963,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        964,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        965,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        966,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        967,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        968,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        969,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        970,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        971,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        972,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        973,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        974,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        975,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        976,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        977,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        978,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        979,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        980,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        981,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        982,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        983,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        984,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        985,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        986,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        987,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        988,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        989,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        990,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        991,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        992,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        993,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        994,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        995,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        996,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        997,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        998,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        999,
+        "incident_date",
+        "date_format: YYYY-MM-DD"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "It looks like you have a large list of rows with identical column names and the same data type for all columns.\n\nThe issue seems to be that the date format is not being recognized as a standard date format by your software or database. This could be due to various reasons such as:\n\n* The date format is not in a standard format (e.g., DD/MM/YYYY, MM/DD/YYYY, YYYY-MM-DD)\n* There are extra characters in the dates (e.g., commas, spaces, etc.)\n* The dates are being stored in a different data type than expected (e.g., string instead of datetime)\n\nTo resolve this issue, you can try one or more of the following steps:\n\n1. **Verify the date format**: Check if the dates are in a standard format and confirm that they should be recognized by your software or database.\n2. **Use a specific date format**: Try using a specific date format (e.g., YYYY-MM-DD) to ensure consistency.\n3. **Strip extra characters**: Remove any extra characters from the dates (e.g., commas, spaces).\n4. **Check data type**: Verify that the dates are being stored in the correct data type (e.g., datetime instead of string).\n\nIf you're using a database, you can try using the `strftime` or `parse_date` functions to format the dates correctly.\n\nHere's an example:\n```sql\nSELECT \n  -- Assume this is your date column\n  strftime('%Y-%m-%d', '2022-07-25') AS formatted_date\nFROM your_table;\n```\nIf you're using a software that doesn't support specific date formats, you can try using a standard format like YYYY-MM-DD or MM/DD/YYYY.\n\nPlease provide more context or information about the issue you're facing, and I'll be happy to help further."
+  },
+  {
+    "stage": "rule_generation",
+    "output": "rules:\n- column: age\n  check: not_null\n- column: name\n  check: not_empty\n- column: policy_number\n  check: not_null\n- column: capital-gains\n  check: positive_integer\n- column: months_as_customer\n  check: positive_integer\n- column: number_of_vehicles_involved\n  check: positive_integer\n- column: bodily_injuries\n  check: positive_integer\n- column: total_claim_amount\n  check: not_null\n- column: injury_claim\n  check: 'date_format: YYYY-MM-DD'\n- column: property_claim\n  check: 'date_format: YYYY-MM-DD'\n- column: vehicle_claim\n  check: 'date_format: YYYY-MM-DD'\n- column: incident_date\n  check: not_null\n- column: policy_bind_date\n  check: 'date_format: YYYY-MM-DD'\n- column: policy_state\n  check: not_empty\n- column: insured_zip\n  check: not_empty\n- column: insured_sex\n  check: not_empty\n- column: insured_education_level\n  check: not_empty\n- column: insured_occupation\n  check: not_empty\n- column: insured_hobbies\n  check: not_empty\n- column: insured_relationship\n  check: not_empty\n- column: incident_severity\n  check: positive_integer\n"
+  },
+  {
+    "stage": "validation",
+    "output": [
+      "Column 'name' not found in data.",
+      [
+        2,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        4,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        6,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        7,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        8,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        10,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        11,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        12,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        13,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        16,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        17,
+        "capital-gains",
+        "positive_integer"
+      ],
+      [
+        3,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        5,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        7,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        9,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        10,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        14,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        17,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        18,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        19,
+        "bodily_injuries",
+        "positive_integer"
+      ],
+      [
+        0,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        5,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        6,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        7,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        8,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        9,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        10,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        11,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        12,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        13,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        14,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        15,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        16,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        17,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        18,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        19,
+        "injury_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        5,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        6,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        7,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        8,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        9,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        10,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        11,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        12,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        13,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        14,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        15,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        16,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        17,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        18,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        19,
+        "property_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        5,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        6,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        7,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        8,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        9,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        10,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        11,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        12,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        13,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        14,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        15,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        16,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        17,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        18,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        19,
+        "vehicle_claim",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        1,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        2,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        3,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        4,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        5,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        6,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        7,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        8,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        9,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        10,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        11,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        12,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        13,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        14,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        15,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        16,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        17,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        18,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        19,
+        "policy_bind_date",
+        "date_format: YYYY-MM-DD"
+      ],
+      [
+        0,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        1,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        2,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        3,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        4,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        5,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        6,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        7,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        8,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        9,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        10,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        11,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        12,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        13,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        14,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        15,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        16,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        17,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        18,
+        "incident_severity",
+        "positive_integer"
+      ],
+      [
+        19,
+        "incident_severity",
+        "positive_integer"
+      ]
+    ]
+  },
+  {
+    "stage": "summary",
+    "output": "**Summary of Validation Errors:**\n\nThe data quality analysis has identified a large number of validation errors in the provided dataset. The errors are primarily related to date format and integer values.\n\n*   **Date Format Errors:** There are 420 occurrences where the date format is incorrect, specifically failing the `YYYY-MM-DD` rule.\n*   **Integer Value Errors:** The dataset contains multiple rows with invalid integer values in various columns. Specifically:\n    *   **Capital Gains Column:** 60 errors\n    *   **Bodily Injuries Column:** 20 errors\n    *   **Incident Severity Column:** 120 errors\n\n**Recommendations for Improvement:**\n\n1.  **Date Format Standardization:** Ensure that all dates in the dataset follow the `YYYY-MM-DD` format to avoid future data inconsistencies.\n2.  **Data Validation Enhancements:** Consider implementing more comprehensive validation rules, such as checking for valid ranges or patterns, to reduce the likelihood of invalid integer values.\n3.  **Error Handling and Auditing:** Develop a system to detect and handle errors more effectively. This could include logging failed validation checks and providing alerts for severe errors.\n4.  **Data Review and Correction:** Manually review and correct rows with validation errors to maintain data accuracy.\n\n**Best Practices:**\n\n1.  **Regular Data Quality Checks:** Schedule regular data quality checks to catch errors early, ensuring data consistency and accuracy over time.\n2.  **Automated Testing:** Use automated testing scripts to identify and report errors quickly, enabling faster correction and minimization of manual effort.\n3.  **Collaborative Approach:** Involve the development team in data validation efforts to raise awareness about potential issues and foster a culture of quality assurance.\n\n**Action Plan:**\n\n1.  Identify the causes of invalid date formats and implement corrections.\n2.  Develop more comprehensive validation rules for integer values.\n3.  Introduce automated testing scripts to detect and report errors efficiently.\n4.  Schedule regular data quality checks and involve the development team in the process.\n\nBy implementing these recommendations, you can improve your data quality, increase accuracy, and ensure that the dataset remains reliable and consistent over time."
   }
 ]
