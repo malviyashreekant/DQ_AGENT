@@ -1,9 +1,0 @@
-rules:
-  - column: ClaimAmount
-    check: not_null
-
-  - column: ClaimAmount
-    check: positive
-
-  - column: ClaimDate
-    check: past_date
