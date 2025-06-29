@@ -1,0 +1,53 @@
+Here are some useful data quality validation rules in YAML format:
+
+```yml
+- name: Claim Amount Validation
+  rule:
+    type: equality_check
+    condition: claim_amount != null and claim_amount > 0
+    error_message: "Claim amount cannot be zero or negative"
+
+- name: Date Format Validation
+  rule:
+    type: date_format
+    format: 'YYYY-MM-DD'
+    error_message: "Invalid date format. Please use YYYY-MM-DD."
+
+- name: Zip Code Range Validation
+  rule:
+    type: range_check
+    min_value: 10000
+    max_value: 99999
+    error_message: "Zip code must be within the range of 10,000 to 99,999"
+
+- name: Adjuster ID Validation
+  rule:
+    type: equality_check
+    condition: adjuster_id != null and adjuster_id == 'A001' # assuming only A001 is valid
+    error_message: "Invalid Adjuster ID. Only 'A001' is accepted."
+
+- name: Claim Amount Rounding Validation
+  rule:
+    type: round_check
+    rounding_rule: ceiling
+    min_value: 0
+    max_value: 1000000 # assuming maximum allowed claim amount is $1,000,000
+    error_message: "Claim amount exceeds the maximum allowed value."
+
+- name: Duplicate Claim ID Validation
+  rule:
+    type: unique_check
+    column_name: claim_id
+    error_message: "Duplicate claim ID found."
+```
+
+These rules cover various data quality issues such as:
+
+1. Invalid or zero claim amounts
+2. Incorrect date formats
+3. Out-of-range zip codes
+4. Invalid adjuster IDs
+5. Excessive claim amounts
+6. Duplicate claim IDs
+
+Note that you may need to adjust the error messages and rules based on your specific requirements and data distribution.
