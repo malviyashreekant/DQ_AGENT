@@ -9,45 +9,42 @@ class LLMRuleAgentOllama:
 
     def generate_rules(self, table_name="claims"):
         # Use few-shot format guidance in the prompt
-        prompt = f"""You are a data quality analyst. Your task is to generate data quality validation rules in **pure YAML format** based on the sample table `{table_name}`.
+        prompt = f"""You are a data quality analyst specialized in Property & Casualty (P&C) insurance. Your task is to generate semantic data quality validation rules in **pure YAML format** based on the sample table `{table_name}`. This dataset contains P&C insurance fields such as policyholder info, incident details, claim amounts, and regulatory indicators.
 
-Only output valid YAML with this exact structure:
-
+Output Requirements:
+- Only output **valid YAML** using this structure:
 rules:
   - column: age
     check: not_null
-  - column: name
-    check: length(5)
-  - column: join_date
+  - column: total_claim_amount
+    check: positive_integer
+  - column: incident_date
     check: "date_format: YYYY-MM-DD"
 
+- Output **only YAML**. Do not include markdown (e.g., ```yaml), document separators (---), comments, or explanations.
 
-also for date format the format should be YYYY-MM-DD do not use any other format
+- Do **not hallucinate** column names. Only generate rules for the columns provided in the sample table.
 
+Allowed Check Types and Their Meaning:
+- `not_null`: Value must not be null or empty (this is equivalent to `not_empty`). If a column has this check and contains a `null`, `NaN`, or blank string, it must be flagged in `issues.json`.
+- `positive_integer`: Value must be an integer greater than 0. Any negative or non-integer value must be flagged.
+- `length(n)`: Value must be exactly `n` characters long. Any other length should be flagged.
+- `"date_format: YYYY-MM-DD"`: Value must match the exact `YYYY-MM-DD` pattern. Any other format, such as `MM/DD/YYYY` or `YYYY/MM/DD`, should be flagged.
+- `not_empty`: Same as `not_null`. Value must not be blank, null, or missing.
 
-Allowed check types:
-- not_null
-- not_empty
-- length(n)
-- positive_integer
-- "date_format: YYYY-MM-DD"
+Insurance-Relevant Field Expectations:
+Apply the following rules when these columns appear:
+- `age`, `months_as_customer`, `total_claim_amount`, `bodily_injuries`: → `positive_integer`
+- `incident_date`, `policy_bind_date`, `auto_model_year`: → `"date_format: YYYY-MM-DD"`
+- `insured_zip`: → `length(5)` or `length(6)` depending on observed data
+- `fraud_reported`, `authorities_contacted`, `policy_number`, `customer_id`: → `not_null`
 
-**Rule Definitions for Reference:**
-- not_null: value should not be null which is equivalent to not_empty
-- length(n): value should be exactly n characters long
-- date_format: value should match specified format
-- positive_integer: value must be an integer > 0
+Reminder:
+- The model must **flag all validation failures**. If a rule like `not_null` is defined and the column contains any nulls or empty values, each violating row must be captured in `issues.json`.
+- Only generate YAML. No markdown, prose, or extra output.
 
+Now, using the sample table provided below, return only the validation rules in YAML.
 
- DO NOT include:
-- Markdown formatting (like ```yaml or *)
-- YAML document separators (---)
-- Explanations, comments, or aliases (! or &)
-- Column inference — always include a column name
-
-Only return clean YAML — no prose or markdown.
-
-Here are the first few rows of the table:
 
 {self.df.head(3).to_markdown()}
 """

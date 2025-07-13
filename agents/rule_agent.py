@@ -20,8 +20,8 @@ class RuleAgent:
                 issues.append(f"Column '{col}' not found in data.")
                 continue
 
-            if check == "not_null":
-                invalid_rows = self.df[self.df[actual_col].isnull()]
+            if check in ("not_null", "not_empty"):
+                invalid_rows = self.df[self.df[actual_col].isnull() | (self.df[actual_col] == "")]
 
             elif check == "positive":
                 invalid_rows = self.df[self.df[actual_col] <= 0]
