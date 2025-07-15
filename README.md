@@ -6,12 +6,51 @@ DQ-Agent is a Python automation tool for profiling datasets, generating data qua
 Sample of 20 records used from Kaggle Dataset ( https://www.kaggle.com/datasets/buntyshah/auto-insurance-claims-data ) that contains real-world auto insurance claim records intended for analysis or fraud detection
 
 ## Features
-- **Data Profiling:** Loads and profiles CSV datasets.
-- **Rule Generation:** Uses Llama 3 to generate YAML-based data quality rules from the dataset.
-- **Rule Validation:** Validates data using dynamically generated YAML rules.
-- **AI Summarization:** Summarizes detected data quality issues and provides recommendations using Llama 3.
+
+- **Automated Rule Generation:** Uses LLM (Llama 3) to generate semantic data quality rules from your dataset.
+- **Comprehensive Data Validation:** Validates your data against dynamically generated YAML rules.
+- **Detailed Reporting and Summaries:** Produces detailed reports and AI-generated summaries of data quality issues.
+- **Memory Management:** Maintains pipeline history for traceability and auditing.
+- **Configurable Validation Rules:** Easily customize rule templates and validation logic via configuration.
+
+## Quick Start
+
+1. **Install dependencies:**
+   ```
+   pip install -r requirements.txt
+   ```
+2. **Prepare your data:**
+   - Place your CSV file in the `data/` directory.
+
+3. **Configure the pipeline:**
+   - Update the `filepath` variable in [`agents/runpipeline.py`](agents/runpipeline.py) to point to your CSV file.
+
+4. **Run the pipeline:**
+   ```
+   python agents/runpipeline.py
+   ```
+
+## Testing
+
+- **Unit tests:**
+  ```
+  python -m unittest test_rule_agent -v
+  ```
+- **Integration tests:**
+  ```
+  python -m unittest test_integration -v
+  ```
+
+## Configuration
+
+Edit [`config.yaml`](config.yaml) to customize:
+- Model selection (e.g., Llama 3 version)
+- Rule templates for common fields
+- Output directories and retention
+- Memory and logging settings
 
 ## Project Structure
+
 ```
 agents/
   profiler_agent.py        # Data profiling logic
@@ -24,33 +63,13 @@ agents/
 data/
   claims.csv               # Example dataset
 dq_outputs/                # Output folders with results
+test/
+  test_rule_agent.py       # Unit tests for rule validation
+  test_integration.py      # Integration tests for the pipeline
+requirements.txt           # Python dependencies
+README.md                  # Project documentation
 ```
 
-## Usage
-1. **Prepare your dataset:** Place your CSV file in the `data/` directory (e.g., `claims.csv`).
-2. **Run the pipeline:**
-   ```powershell
-   python agents/runpipeline.py
-   ```
-3. **Workflow:**
-   - Profiles the dataset.
-   - Generates YAML rules using Llama 3.
-   - Saves and reloads the rules.
-   - Validates data using generated rules.
-   - Summarizes issues and recommendations with Llama 3.
-   - Outputs results to a timestamped folder in `dq_outputs/`.
 
-## Requirements
-- Python 3.8+
-- Required packages: `pandas`, `pyyaml`, and any dependencies for Llama 3 integration.
 
-Install dependencies:
-```powershell
-pip install pandas pyyaml
-```
 
-## Customization
-- **Agents:** Extend or modify agents in the `agents/` directory for custom logic.
-- **Pipeline:** Adjust the pipeline logic in `agents/dqcontroleragent.py` or the entry script `agents/runpipeline.py`.
-
-## License

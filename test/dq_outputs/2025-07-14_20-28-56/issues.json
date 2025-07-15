@@ -1,0 +1,32 @@
+[
+  [
+    2,
+    "age",
+    "positive_integer"
+  ],
+  [
+    2,
+    "total_claim_amount",
+    "positive_integer"
+  ],
+  [
+    0,
+    "incident_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    1,
+    "incident_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "incident_date",
+    "date_format: YYYY-MM-DD"
+  ],
+  [
+    2,
+    "policy_number",
+    "not_null"
+  ]
+]

@@ -1,0 +1,9 @@
+rules:
+- column: age
+  check: positive_integer
+- column: total_claim_amount
+  check: positive_integer
+- column: incident_date
+  check: 'date_format: YYYY-MM-DD'
+- column: policy_number
+  check: not_null
